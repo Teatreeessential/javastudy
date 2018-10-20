@@ -8,7 +8,8 @@ import java.net.Socket;
 
 public class SocketServerSample {
 	public static void main(String[] args) {
-		
+		SocketServerSample server = new SocketServerSample();
+		server.startServer();
 	}
 	public void startServer() {
 		ServerSocket server = null;
@@ -31,7 +32,23 @@ public class SocketServerSample {
 				in.close();
 				stream.close();
 				client.close();
+				if(receivedData!=null&&"EXIT".equals(receivedData.toString())) {
+					System.out.println("stop socketserver");
+					break;
+				}
+				System.out.println("-------------");
 			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(server!=null) {
+				try {
+					server.close();
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
 		}
 	}
 }
